@@ -1,3 +1,17 @@
 from django.contrib import admin
+from boards.models import Board, Post, Topic
 
-# Register your models here.
+
+@admin.register(Board)
+class BoardAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    pass
