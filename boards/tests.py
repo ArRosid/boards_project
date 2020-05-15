@@ -3,6 +3,7 @@ from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 from boards.views import home, board_topics, new_topic
 from boards.models import Board, Topic, Post
+from boards.forms import NewTopicForm
 
 
 class HomeTests(TestCase):
@@ -140,3 +141,37 @@ class NewTopicTests(TestCase):
         post = Post.objects.get(message=message)
         self.assertEqual(topic.subject, subject)
         self.assertEqual(post.message, message)
+
+    def test_new_topic_invalid_post_data(self):
+        """
+            invalid post data should not redirect
+            the expected behavior is to show the form again with validation errors
+        :return:
+        """
+        res = self.client.post(self.get_url(), {})
+        form = res.context.get("form")
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(form.errors)
+
+    def test_new_topic_invalid_post_data_empty_fields(self):
+        """
+            invalid post data should not redirect
+            if the field empty, topic & post should not created
+        :return:
+        """
+        data = {"subject": "", "message": ""}
+        res = self.client.post(self.get_url(), data)
+        form = res.context.get("form")
+        self.assertEqual(res.status_code, 200)
+        self.assertFalse(Topic.objects.exists())
+        self.assertFalse(Post.objects.exists())
+        self.assertTrue(form.errors)
+
+    def test_contains_form(self):
+        """
+            test new topic page contains form
+        :return:
+        """
+        res = self.client.get(self.get_url())
+        form = res.context.get("form")
+        self.assertIsInstance(form, NewTopicForm)
