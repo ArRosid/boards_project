@@ -122,3 +122,5 @@ LOGOUT_REDIRECT_URL = "boards:home"
 LOGIN_REDIRECT_URL = "home"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+LOGIN_URL = "accounts:login"
