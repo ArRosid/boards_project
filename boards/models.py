@@ -29,3 +29,6 @@ class Post(models.Model):
     updated_by = models.ForeignKey(
         User, related_name="+", on_delete=models.CASCADE, null=True, blank=True
     )
+
+    def __str__(self):
+        return self.message

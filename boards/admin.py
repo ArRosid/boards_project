@@ -9,9 +9,9 @@ class BoardAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["message", "topic"]
 
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["id", "subject"]
